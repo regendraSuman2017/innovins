@@ -7,17 +7,17 @@ import 'package:innovins/core/theme/app_text.dart';
 import 'package:innovins/core/widgets/custom_elevated_button.dart';
 import 'package:innovins/core/widgets/text_Form_Field_Component.dart';
 
-import 'package:innovins/module/product_cart_page/product_cart_controller.dart';
+import 'package:innovins/module/product_list/product_list_controller.dart';
 
 class EditProductWidget extends StatelessWidget {
   const EditProductWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return addProductFormView(Get.find<ProductCartController>());
+    return addProductFormView(Get.find<ProductListController>());
   }
 
-  Widget addProductFormView(ProductCartController productController) {
+  Widget addProductFormView(ProductListController productController) {
     return  Padding(
       padding: const EdgeInsets.all(12.0),
       child: Form(

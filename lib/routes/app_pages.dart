@@ -11,6 +11,8 @@ import 'package:innovins/module/login_screen/login_screen_view.dart';
 import 'package:innovins/module/product_cart_page/product_cart_view.dart';
 import 'package:innovins/module/product_detail_page/product_detail_binding.dart';
 import 'package:innovins/module/product_detail_page/product_detail_page.dart';
+import 'package:innovins/module/product_list/product_list_binding.dart';
+import 'package:innovins/module/product_list/product_list_view.dart';
 import 'package:innovins/module/signup_screen/signup_screen_binding.dart';
 import 'package:innovins/module/signup_screen/signup_screen_view.dart';
 import 'package:innovins/module/splash/splash_binding.dart';
@@ -33,6 +35,7 @@ class AppPages {
      GetPage(name: _Paths.dashBoardScreen, page: () =>  Dashboard(), binding: DashboardBinding()),
      GetPage(name: _Paths.productCardList, page: () =>  const ProductCartScreen(), binding: ProductCartBinding()),
      GetPage(name: _Paths.addProductCart, page: () =>  const AddProductView(), binding: AddProductBinding()),
+     GetPage(name: _Paths.productList, page: () =>   ProductListView(), binding: ProductListBinding()),
 
   ];
 }

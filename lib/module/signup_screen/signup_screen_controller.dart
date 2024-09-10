@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:innovins/core/theme/app_text.dart';
 import 'package:innovins/data/repository/login/login_repo.dart';
 import 'package:innovins/data/repository/login/login_repo_impl.dart';
 import 'package:innovins/data/repository/sign_repo/sign_up_repo.dart';
@@ -39,16 +40,13 @@ class SignUpScreenController extends GetxController{
   RxBool isSigningUp = false.obs;
 
 
-  void addProduct() async {
-print("fsjkl 1");
+  void signup() async {
     try {
-      print("fsjkl 2");
       String  name =  nameController.text;
       String email =  emailController.text;
       String mobile =  phoneController.text;
       String password =  passwordController.text;
       isSigningUp.value = true;
-      print("fsjkl 3");
       final result = await _signUpRepo.signUpAPI( name, email, mobile, password);
       if(result!=null && result.title=='Congratulations!'){
         loginAPI();
@@ -57,8 +55,8 @@ print("fsjkl 1");
     } catch (e) {
       Navigator.of(Get.context!).pop();
       Get.snackbar(
-        "Failed",
-        "This E-mail Id Already Exist",
+        AppText.failedText,
+        AppText.emailAlready,
         icon: const Icon(Icons.clear, color: Colors.white),
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
@@ -69,12 +67,10 @@ print("fsjkl 1");
         isDismissible: true,
         forwardAnimationCurve: Curves.easeOutBack,
       );
-     // Fluttertoast.showToast(msg: "Some error happened");
     }
   }
 
   loginAPI()async{
-    print("fsjkl 9");
     String  emailId = emailController.text;
     String password = passwordController.text;
     try{
@@ -87,7 +83,6 @@ print("fsjkl 1");
         prefs.setString('email', response.data!.email!);
 
         Get.offAllNamed(Routes.dashBoardScreen);
-        print("fsjkl 3");
       }
 
     }catch(e){}

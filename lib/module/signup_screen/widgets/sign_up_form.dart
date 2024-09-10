@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:innovins/core/globals.dart';
 import 'package:innovins/core/theme/app_color.dart';
 import 'package:innovins/core/theme/app_font_weight.dart';
+import 'package:innovins/core/theme/app_text.dart';
 import 'package:innovins/core/widgets/custom_elevated_button.dart';
 import 'package:innovins/core/widgets/text_Form_Field_Component.dart';
 import 'package:innovins/module/signup_screen/signup_screen_controller.dart';
@@ -34,9 +35,9 @@ class SignUpFormWidget extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      textWidget("Name"),
+                      textWidget(AppText.nameText),
                       TextFieldComponent(
-                        hintText: 'Enter name',
+                        hintText: AppText.enterNameText,
                         obscureText: false,
                         contentPadding:EdgeInsets.all(Get.width * 0.023),
                         keyboardType: TextInputType.emailAddress,
@@ -46,7 +47,7 @@ class SignUpFormWidget extends StatelessWidget {
                         controller: signUpController.nameController,
                         validator: (value) {
                           if(value!.isEmpty){
-                            return "Enter name";
+                            return AppText.enterNameText;
                           }
                           return null;
                         },
@@ -58,15 +59,15 @@ class SignUpFormWidget extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      textWidget("Phone Number"),
+                      textWidget(AppText.phoneText),
                       TextFieldComponent(
-                        hintText: 'Enter Phone Number',
+                        hintText: AppText.enterPhoneNumber,
                         contentPadding:EdgeInsets.all(Get.height * 0.025),
                         controller: signUpController.phoneController,
                         keyboardType: TextInputType.number,
                         validator: (value){
                           if(value!.isEmpty){
-                            return 'Enter phon enumber';
+                            return AppText.enterPhoneNumber;
                           }
                           return null;
                         },
@@ -78,9 +79,9 @@ class SignUpFormWidget extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      textWidget("Email"),
+                      textWidget(AppText.emailText),
                       TextFieldComponent(
-                        hintText: 'Enter email Id',
+                        hintText: AppText.enterEmailText,
                         obscureText: false,
                         contentPadding:EdgeInsets.all(Get.width * 0.023),
                         keyboardType: TextInputType.emailAddress,
@@ -131,7 +132,7 @@ class SignUpFormWidget extends StatelessWidget {
                             if (!isValid!) {
                               return;
                             }
-                            signUpController.addProduct();
+                            signUpController.signup();
                             return;
                           }
 

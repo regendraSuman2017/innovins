@@ -59,12 +59,12 @@ class HomePage extends GetView<HomePageController> {
               onTap: (){
                 Navigator.pop(context); // Closes the drawer
                 Future.delayed(const Duration(seconds: 1));
-                Get.toNamed(Routes.productCardList);
+                Get.toNamed(Routes.productList);
               },
             ),
             ListTile(
               leading: const Icon(Icons.logout), // Icon for theme toggle
-              title: const Text(AppText.viewProduct),
+              title: const Text(AppText.logout),
               onTap: ()async{
 
                 SharedPreferences prefs = await SharedPreferences.getInstance();

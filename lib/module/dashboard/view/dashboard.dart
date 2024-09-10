@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:innovins/core/theme/app_color.dart';
 import 'package:innovins/module/dashboard/controller/dashboard_controller.dart';
 import 'package:innovins/module/home_page/home_page.dart';
+import 'package:innovins/module/product_cart_page/product_cart_view.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
 // ignore: must_be_immutable
@@ -45,8 +46,8 @@ class Dashboard extends GetView<DashboardController> {
 List<Widget> _buildScreens() {
   return [
      const HomePage(),
-    //const ProductCartScreen(),
-    HomePage(),
+    const ProductCartScreen(),
+    //HomePage(),
     const HomePage(),
   ];
 }

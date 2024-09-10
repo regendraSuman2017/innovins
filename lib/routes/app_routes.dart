@@ -12,6 +12,7 @@ abstract class Routes {
   static const String cartScreen = _Paths.cartScreen;
   static const String productCardList = _Paths.productCardList;
   static const String addProductCart = _Paths.addProductCart;
+  static const String productList = _Paths.productList;
 }
 
 abstract class _Paths {
@@ -25,5 +26,6 @@ abstract class _Paths {
   static const  String  cartScreen = '/product_cart_view.dart';
   static const  String  productCardList = '/product_cart_view.dart';
   static const  String  addProductCart = '/add_product_view.dart';
+  static const  String  productList = '/product_list_view.dart';
 
 }

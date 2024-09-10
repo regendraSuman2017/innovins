@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:innovins/core/theme/app_text.dart';
 import 'package:innovins/routes/app_pages.dart';
 
 void main() async {
@@ -19,7 +20,7 @@ class _AppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Innovins',
+      title: AppText.appName,
       getPages: AppPages.routes,
       initialRoute: AppPages.initial,
       theme: ThemeData(
