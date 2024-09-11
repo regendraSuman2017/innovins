@@ -1,23 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:innovins/core/theme/app_text.dart';
-import 'package:innovins/data/repository/login/login_repo.dart';
-import 'package:innovins/data/repository/login/login_repo_impl.dart';
-import 'package:innovins/data/repository/sign_repo/sign_up_repo.dart';
-import 'package:innovins/data/repository/sign_repo/sign_up_repo_impl.dart';
+import 'package:innovins/core/widgets/snackbar_widget.dart';
 import 'package:innovins/routes/app_pages.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:innovins/service/api_service.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 
 class SignUpScreenController extends GetxController{
 
-  late SignUpRepo _signUpRepo;
-  late LoginRepo _loginRepo;
-
-  SignUpScreenController() {
-    _signUpRepo = Get.put(SignUpRepoImpl());
-    _loginRepo = Get.put(LoginRepoImpl());
-  }
 
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -42,51 +32,39 @@ class SignUpScreenController extends GetxController{
 
   void signup() async {
     try {
+      showDialog(
+          context: Get.context!,
+          builder: (BuildContext _) => Center(
+            child: LoadingAnimationWidget.threeArchedCircle(
+              color: const Color.fromARGB(255, 255, 177, 41),
+              size: Get.width*0.12,
+            ),
+          )
+      );
       String  name =  nameController.text;
       String email =  emailController.text;
       String mobile =  phoneController.text;
       String password =  passwordController.text;
       isSigningUp.value = true;
-      final result = await _signUpRepo.signUpAPI( name, email, mobile, password);
-      if(result!=null && result.title=='Congratulations!'){
-        loginAPI();
+
+      var response = await ApiService().register(name, email, mobile, password);
+
+      if(response!=null && response.title=='Congratulations!'){
+        Navigator.of(Get.context!).pop();
+        CustomSnackBar.showSuccessSnackBar('Success','Account Create successful. please Login');
+        Future.delayed(const Duration(seconds: 2));
+        Get.offAllNamed(Routes.loginScreen);
       }else{
+        Navigator.of(Get.context!).pop();
+        CustomSnackBar.showFailedSnackBar('Failed','Failed');
       }
     } catch (e) {
       Navigator.of(Get.context!).pop();
-      Get.snackbar(
-        AppText.failedText,
-        AppText.emailAlready,
-        icon: const Icon(Icons.clear, color: Colors.white),
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        borderRadius: 20,
-        margin: const EdgeInsets.all(15),
-        colorText: Colors.white,
-        duration: const Duration(seconds: 3),
-        isDismissible: true,
-        forwardAnimationCurve: Curves.easeOutBack,
-      );
+      CustomSnackBar.showFailedSnackBar('Failed','Failed');
     }
   }
 
-  loginAPI()async{
-    String  emailId = emailController.text;
-    String password = passwordController.text;
-    try{
-      final response = await _loginRepo.loginAPI(emailId,password);
-      if(response!=null && response.title=='Logged In!'){
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('user_token',response.data!.userToken!);
-        prefs.setString('name', response.data!.name!);
-        prefs.setString('mobile', response.data!.mobile!);
-        prefs.setString('email', response.data!.email!);
 
-        Get.offAllNamed(Routes.dashBoardScreen);
-      }
-
-    }catch(e){}
-  }
 
 
 }

@@ -32,10 +32,10 @@ class AppPages {
      GetPage(name: _Paths.productDetailScreen, page: () =>  const ProductDetailPage(), binding: ProductDetailBinding()),
      GetPage(name: _Paths.signUpScreenView, page: () => const SignUpScreenView(), binding: SignUpScreenBinding()),
     GetPage(name: _Paths.loginScreen, page: () => const LoginScreenView(), binding: LoginScreenBinding()),
-     GetPage(name: _Paths.dashBoardScreen, page: () =>  Dashboard(), binding: DashboardBinding()),
+     GetPage(name: _Paths.dashBoardScreen, page: () =>  const Dashboard(), binding: DashboardBinding()),
      GetPage(name: _Paths.productCardList, page: () =>  const ProductCartScreen(), binding: ProductCartBinding()),
      GetPage(name: _Paths.addProductCart, page: () =>  const AddProductView(), binding: AddProductBinding()),
-     GetPage(name: _Paths.productList, page: () =>   ProductListView(), binding: ProductListBinding()),
+     GetPage(name: _Paths.productList, page: () =>   const ProductListView(), binding: ProductListBinding()),
 
   ];
 }

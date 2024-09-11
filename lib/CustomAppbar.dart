@@ -6,13 +6,13 @@ import 'package:innovins/core/theme/text_style.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
-    Key? key,
+    super.key,
     this.title,
     this.leading,
     this.actions,
     this.spacing,
     this.elevation = 0.0,
-  }) : super(key: key);
+  });
   final String? title;
   final Widget? leading;
   final double elevation;
@@ -39,13 +39,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 class CustomWhiteAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomWhiteAppBar({
-    Key? key,
+    super.key,
     this.title,
     this.leading,
     this.actions,
     this.spacing,
     this.elevation = 0.0,
-  }) : super(key: key);
+  });
   final String? title;
   final Widget? leading;
   final double elevation;

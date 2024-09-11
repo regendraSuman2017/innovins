@@ -8,7 +8,7 @@ import 'package:innovins/module/product_detail_page/product_detail_controller.da
 
 
 class ProductDetailPage extends GetView<ProductDetailController> {
-  const ProductDetailPage({Key? key}) : super(key: key);
+  const ProductDetailPage({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +17,7 @@ class ProductDetailPage extends GetView<ProductDetailController> {
           child: CircularProgressIndicator(),) :
         Container(
           height: Get.height * 0.99999,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage("assets/img1.png"),
               fit: BoxFit.cover,
@@ -71,7 +71,7 @@ class ProductDetailPage extends GetView<ProductDetailController> {
 
                     RichText(
                       text: TextSpan(
-                        text: '~ ' + controller.price.value,
+                        text: '~ ${controller.price.value}',
                         style: GoogleFonts.nunitoSans(
                             fontSize: Get.width * 0.05,
                             color: AppColor.buttonColor,

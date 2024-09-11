@@ -2,23 +2,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:innovins/core/theme/app_color.dart';
+import 'package:innovins/core/widgets/snackbar_widget.dart';
 import 'package:innovins/data/model/getAllProduct_response.dart';
-import 'package:innovins/data/repository/add_product/add_product_repo.dart';
-import 'package:innovins/data/repository/add_product/add_product_repo_impl.dart';
-import 'package:innovins/data/repository/home/home_repo.dart';
-import 'package:innovins/data/repository/home/home_repo_impl.dart';
 import 'package:innovins/module/product_list/widget/edit_product_widget.dart';
+import 'package:innovins/service/api_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductListController extends GetxController{
 
 
-  late AddProductRepo _addProductRepo;
-  late HomeRepo _homeRepo;
-  ProductListController() {
-    _addProductRepo = Get.find<AddProductRepoImpl>();
-    _homeRepo = Get.find<HomeRepoImpl>();
-  }
+
 
   RxBool addProductLoading = false.obs;
 
@@ -44,42 +37,29 @@ class ProductListController extends GetxController{
 
   }
 
-
-  Future<void> getAllProducts() async {
+  void getAllProducts() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token  = prefs.getString('user_login_token')!;
     isLoading.value = true;
     try {
-      final response = await _homeRepo.getAllProductsAPI();
-      print("asldjlkajdl");
-      isLoading.value = false;
-      if (response != null) {
+
+      var response = await ApiService().productList(token);
+
+      if(response!=null ){
+        isLoading.value = false;
         getProductList.value = response;
         getProductFilterList.value = response;
-
-      } else {
+      }else{
+        isLoading.value = false;
         getProductList.clear();
         getProductFilterList.clear();
       }
     } catch (e) {
-      if (kDebugMode) {
-        print('Error fetching products: $e');
-      }
+      isLoading.value = false;
       getProductList.clear();
       getProductFilterList.clear();
-      Get.snackbar(
-        "Failed",
-        "Failed to fetch products",
-        icon: const Icon(Icons.clear, color: Colors.white),
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Color(0x00ffef53),
-        borderRadius: 20,
-        margin: const EdgeInsets.all(15),
-        colorText: Colors.white,
-        duration: const Duration(seconds: 3),
-        isDismissible: true,
-        forwardAnimationCurve: Curves.easeOutBack,
-      );
-    } finally {
-      isLoading.value = false;
+      Navigator.of(Get.context!).pop();
+      CustomSnackBar.showFailedSnackBar('Failed','Failed');
     }
   }
 
@@ -104,66 +84,46 @@ class ProductListController extends GetxController{
         ));
   }
 
-  editProductAPI()async {
-    print("Update Product");
-    try{
-      final response = await _addProductRepo.editProductAPI(editId.value,productNameController.text,priceController.text,moqController.text,discountController.text);
 
+  editProductAPI()async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token  = prefs.getString('user_login_token')!;
+    isLoading.value = true;
+    try {
+      var response = await ApiService().editProduct(token,editId.value,productNameController.text,priceController.text,moqController.text,discountController.text);
       if(response!.title=='Success!'){
         addProductLoading.value=false;
-
         Get.back();
-
-        Get.snackbar(
-          "Udate",
-          "Update products",
-          icon: const Icon(Icons.clear, color: Colors.white),
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: AppColor.buttonColor,
-          borderRadius: 20,
-          margin: const EdgeInsets.all(15),
-          colorText: Colors.white,
-          duration: const Duration(seconds: 3),
-          isDismissible: true,
-          forwardAnimationCurve: Curves.easeOutBack,
-        );
-
+        CustomSnackBar.showSuccessSnackBar('Update','Product update Successful');
         getAllProducts();
-
       }else{
         addProductLoading.value=false;
       }
-    }catch(e){}
-
+    }catch(e){
+      if (kDebugMode) {
+        print(e);
+      }
+    }
   }
 
   deleteProduct(id) async {
-
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token  = prefs.getString('user_login_token')!;
     try{
-      final response = await _addProductRepo.deleteProductAPI(id);
-
+      var response = await ApiService().deleteProduct(token,id);
       if(response!.title=='Success!'){
         addProductLoading.value=false;
+        CustomSnackBar.showSuccessSnackBar('Delete','Product Delete Successful');
 
-
-        Get.snackbar(
-          "Delete",
-          "Delete products",
-          icon: const Icon(Icons.clear, color: Colors.white),
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: AppColor.buttonColor,
-          borderRadius: 20,
-          margin: const EdgeInsets.all(15),
-          colorText: Colors.white,
-          duration: const Duration(seconds: 3),
-          isDismissible: true,
-          forwardAnimationCurve: Curves.easeOutBack,
-        );
         getAllProducts();
       }else{
         addProductLoading.value=false;
       }
-    }catch(e){}
+    }catch(e){
+      if (kDebugMode) {
+        print(e);
+      }
+    }
 
   }
 }

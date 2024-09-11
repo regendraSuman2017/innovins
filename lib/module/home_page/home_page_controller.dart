@@ -1,17 +1,12 @@
-import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:innovins/core/widgets/snackbar_widget.dart';
 import 'package:innovins/data/model/getAllProduct_response.dart';
-import 'package:innovins/data/repository/home/home_repo.dart';
-import 'package:innovins/data/repository/home/home_repo_impl.dart';
+import 'package:innovins/service/api_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePageController extends GetxController {
-  late HomeRepo _homeRepo;
 
-  HomePageController() {
-    _homeRepo = Get.find<HomeRepoImpl>();
-  }
 
   RxList<GetAllProductResponse> getProductList = <GetAllProductResponse>[].obs;
   RxList<GetAllProductResponse> getProductFilterList = <GetAllProductResponse>[].obs;
@@ -41,55 +36,33 @@ class HomePageController extends GetxController {
 
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
 
-
-  Future<void> getAllProducts() async {
+  void getAllProducts() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token  = prefs.getString('user_login_token')!;
     isLoading.value = true;
     try {
-      final response = await _homeRepo.getAllProductsAPI();
-      print("asldjlkajdl");
-      isLoading.value = false;
-      if (response != null) {
+
+      var response = await ApiService().productList(token);
+
+      if(response!=null ){
+        isLoading.value = false;
         getProductList.value = response;
         getProductFilterList.value = response;
-
-      } else {
+      }else{
+        isLoading.value = false;
         getProductList.clear();
         getProductFilterList.clear();
       }
     } catch (e) {
-      if (kDebugMode) {
-        print('Error fetching products: $e');
-      }
+      isLoading.value = false;
       getProductList.clear();
       getProductFilterList.clear();
-      Get.snackbar(
-        "Failed",
-        "Failed to fetch products",
-        icon: const Icon(Icons.clear, color: Colors.white),
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Color(0x00ffef53),
-        borderRadius: 20,
-        margin: const EdgeInsets.all(15),
-        colorText: Colors.white,
-        duration: const Duration(seconds: 3),
-        isDismissible: true,
-        forwardAnimationCurve: Curves.easeOutBack,
-      );
-    } finally {
-      isLoading.value = false;
+      Navigator.of(Get.context!).pop();
+      CustomSnackBar.showFailedSnackBar('Failed','Failed');
     }
   }
-
-
-
-
-
 
 
   }

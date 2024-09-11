@@ -14,7 +14,6 @@ class AddProductView extends GetView<AddProductController>{
 
   @override
   Widget build(BuildContext context) {
-    print("ksjdlkjlkj");
     double widthSize = Get.width;
     return GestureDetector(
       onTap: () => Get.focusScope!.unfocus(),

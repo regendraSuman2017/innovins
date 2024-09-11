@@ -8,14 +8,12 @@ class ProductCartController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    print("askljdakljl 1");
     getProduct();
   }
 
   @override
   onReady(){
     super.onReady();
-    print("askljdakljl 2");
     getProduct();
   }
 

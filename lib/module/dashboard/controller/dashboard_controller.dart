@@ -5,11 +5,5 @@ class DashboardController extends GetxController {
 
   PersistentTabController persistentTabController = PersistentTabController(initialIndex: 0);
 
-  @override
-  void onInit() async {
-
-    super.onInit();
-  }
-
 
 }

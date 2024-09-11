@@ -6,7 +6,6 @@ import 'package:innovins/core/theme/app_color.dart';
 import 'package:innovins/core/theme/app_font_weight.dart';
 import 'package:innovins/core/theme/app_text.dart';
 import 'package:innovins/module/product_cart_page/product_cart_controller.dart';
-import 'package:innovins/routes/app_pages.dart';
 
 class ProductCartScreen extends GetView<ProductCartController> {
   const ProductCartScreen({super.key});
@@ -20,7 +19,7 @@ class ProductCartScreen extends GetView<ProductCartController> {
       resizeToAvoidBottomInset: false,
       key: scaffoldKeyN,
       appBar: AppBar(
-        title: Text(""),
+        title: const Text(""),
         backgroundColor: AppColor.whiteColor,
         actions: [
           InkWell(
@@ -30,7 +29,7 @@ class ProductCartScreen extends GetView<ProductCartController> {
               child: const Icon(Icons.refresh)),
         ],
         leading: IconButton(
-          icon: Icon(Icons.menu),
+          icon: const Icon(Icons.menu),
           color: AppColor.primaryColor,
           onPressed: (){
             if (scaffoldKeyN.currentState != null) {
@@ -87,7 +86,7 @@ class ProductCartScreen extends GetView<ProductCartController> {
                       ),
                       margin: EdgeInsets.only(top: widthSize * 0.03),
                       child: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             border: Border(
                               left: BorderSide(
                                 color: AppColor.buttonColor,  // Set the color of the left border

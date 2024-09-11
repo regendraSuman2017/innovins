@@ -9,7 +9,7 @@ import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 // ignore: must_be_immutable
 class Dashboard extends GetView<DashboardController> {
   @override
-  Dashboard({super.key});
+  const Dashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class Dashboard extends GetView<DashboardController> {
       decoration: NavBarDecoration(
           borderRadius: BorderRadius.circular(0.0),
           boxShadow: [
-             BoxShadow(
+             const BoxShadow(
               color: AppColor.lightGrey,
               offset: Offset(
                 0.0,

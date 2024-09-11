@@ -1,20 +1,17 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:innovins/core/theme/app_color.dart';
 import 'package:innovins/core/theme/app_font_weight.dart';
-import 'package:innovins/data/repository/add_product/add_product_repo.dart';
-import 'package:innovins/data/repository/add_product/add_product_repo_impl.dart';
+import 'package:innovins/core/widgets/snackbar_widget.dart';
 import 'package:innovins/routes/app_pages.dart';
+import 'package:innovins/service/api_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class AddProductController extends GetxController{
 
-  late AddProductRepo _addProductRepo;
 
-  AddProductController() {
-    _addProductRepo = Get.put(AddProductRepoImpl());
-  }
   final GlobalKey<FormState> appProductFormKey = GlobalKey<FormState>();
   RxBool addProductLoading = false.obs;
 
@@ -39,24 +36,12 @@ class AddProductController extends GetxController{
   addProduct() async {
     addProductLoading.value=true;
     try{
-      final response = await _addProductRepo.addProductAPI(productNameController.text,mpqController.text,priceController.text,discountPriceController.text);
-
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String token  = prefs.getString('user_login_token')!;
+      final response = await ApiService().addProduct(token,productNameController.text,mpqController.text,priceController.text,discountPriceController.text);
       if(response!.title=='Success!'){
         addProductLoading.value=false;
-
-        Get.snackbar(
-          "Success",
-          "Add products",
-          icon: const Icon(Icons.clear, color: Colors.white),
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: AppColor.buttonColor,
-          borderRadius: 20,
-          margin: const EdgeInsets.all(15),
-          colorText: Colors.white,
-          duration: const Duration(seconds: 3),
-          isDismissible: true,
-          forwardAnimationCurve: Curves.easeOutBack,
-        );
+        CustomSnackBar.showSuccessSnackBar('Success','Add products');
 
         Future.delayed(const Duration(seconds: 1));
         Get.offAllNamed(Routes.dashBoardScreen);
@@ -65,7 +50,11 @@ class AddProductController extends GetxController{
       }else{
         addProductLoading.value=false;
       }
-    }catch(e){}
+    }catch(e){
+      if (kDebugMode) {
+        print(e);
+      }
+    }
 
   }
 

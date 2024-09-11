@@ -8,6 +8,8 @@ import 'package:innovins/core/theme/app_font_weight.dart';
 import 'package:innovins/core/theme/app_text.dart';
 
 class ProductListView extends GetView<ProductListController>{
+  const ProductListView({super.key});
+
   @override
   Widget build(BuildContext context) {
     double widthSize = Get.width;
@@ -85,7 +87,7 @@ class ProductListView extends GetView<ProductListController>{
 
               Obx(() => SizedBox(
                 height: Get.height*0.65,
-                child: controller.isLoading.value==true? Center(child: CircularProgressIndicator()) :controller.getProductList.isEmpty
+                child: controller.isLoading.value==true? const Center(child: CircularProgressIndicator()) :controller.getProductList.isEmpty
                     ? const Center(child: Text("Empty"))
                     : ListView.builder(
                     itemCount: controller.getProductList.length,

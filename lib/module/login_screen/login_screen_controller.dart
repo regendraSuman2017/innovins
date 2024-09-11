@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:innovins/data/repository/login/login_repo.dart';
-import 'package:innovins/data/repository/login/login_repo_impl.dart';
+import 'package:innovins/core/widgets/snackbar_widget.dart';
 import 'package:innovins/routes/app_pages.dart';
+import 'package:innovins/service/api_service.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
 class LoginScreenController extends GetxController{
 
-  late LoginRepo _loginRepo;
-
-  LoginScreenController() {
-    _loginRepo = Get.find<LoginRepoImpl>();
-  }
 
 
   TextEditingController phoneController = TextEditingController();
@@ -45,6 +40,7 @@ class LoginScreenController extends GetxController{
   }
 
 
+
   void loginUser() async {
     showDialog(
         context: Get.context!,
@@ -57,9 +53,9 @@ class LoginScreenController extends GetxController{
     );
     try {
 
-      final response = await _loginRepo.loginAPI(phoneController.text,passwordController.text);
+      var response = await ApiService().login(phoneController.text,passwordController.text);
 
-      if(response!=null){
+      if(response!=null ){
         Navigator.of(Get.context!).pop();
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setBool('isLogin', true);
@@ -68,22 +64,18 @@ class LoginScreenController extends GetxController{
         prefs.setString('mobile', response.data!.mobile!);
         prefs.setString('email', response.data!.email!);
 
-
         await Future.delayed(const Duration(seconds: 1));
-       Get.offAllNamed(Routes.dashBoardScreen);
+        Get.offAllNamed(Routes.dashBoardScreen);
+      }else{
+        Navigator.of(Get.context!).pop();
+        CustomSnackBar.showFailedSnackBar('Failed','Failed');
       }
-
-
-
-
     } catch (e) {
       Navigator.of(Get.context!).pop();
-      await Future.delayed(const Duration(seconds: 1));
-
+      CustomSnackBar.showFailedSnackBar('Failed','Failed');
     }
   }
 
 
+  }
 
-
-}

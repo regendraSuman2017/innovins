@@ -7,13 +7,14 @@ import 'package:innovins/core/localdatabase/product_cart_list.dart';
 import 'package:innovins/core/theme/app_color.dart';
 import 'package:innovins/core/theme/app_font_weight.dart';
 import 'package:innovins/core/theme/app_text.dart';
+import 'package:innovins/core/widgets/custom_elevated_button.dart';
 import 'package:innovins/data/model/getAllProduct_response.dart';
 import 'package:innovins/routes/app_pages.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'home_page_controller.dart';
 
 class HomePage extends GetView<HomePageController> {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
   @override
   Widget build(BuildContext context) {
     double widthSize = Get.width;
@@ -114,11 +115,44 @@ class HomePage extends GetView<HomePageController> {
             ).marginOnly(top: 10,bottom: 10),
 
 
-
             Obx(()=> SizedBox(
               height: Get.height*0.65,
               child: controller.isLoading.value==true? const Center(child: CircularProgressIndicator(),)
-                  : ListView.builder(
+                  : controller.getProductFilterList.isEmpty
+                  ? Center(child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      text: "No product found.",
+                      style: GoogleFonts.nunitoSans(
+                        color: Colors.black54,
+                        fontWeight: AppFontWeight.fontSemiBold,
+                        letterSpacing: letterSpacing,
+                        fontSize:Get.width*0.04,
+                        decoration: TextDecoration.none,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Please Add Product',
+                          style: GoogleFonts.nunitoSans(
+                              color: AppColor.buttonColor,
+                              fontWeight: AppFontWeight.fontBold),
+                        ),
+                      ],
+                    ),
+
+                  ),
+                  CustomElevatedButton(title: 'Add Product',
+                      onPress: () async {
+                        Get.toNamed(Routes.addProductCart);
+                        return;
+                      }
+
+                  ),
+                ],
+              ),)
+                  :  ListView.builder(
                 itemCount: controller.getProductFilterList.length,
                 itemBuilder: (context, index) {
                   GetAllProductResponse product = controller.getProductFilterList[index];
@@ -217,7 +251,6 @@ class HomePage extends GetView<HomePageController> {
                                         quantity: 1,
                                       );
                                       await product.save().then((value){
-                                        print("askjdkl");
                                       });
                                     },
                                     style: OutlinedButton.styleFrom(

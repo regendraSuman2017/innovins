@@ -8,13 +8,13 @@ class LoginResponse {
   LoginResponse.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['title'] = this.title;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['title'] = title;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -40,12 +40,12 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['user_token'] = this.userToken;
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['mobile'] = this.mobile;
-    data['email'] = this.email;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['user_token'] = userToken;
+    data['id'] = id;
+    data['name'] = name;
+    data['mobile'] = mobile;
+    data['email'] = email;
     return data;
   }
 }
